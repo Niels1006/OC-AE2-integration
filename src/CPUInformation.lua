@@ -9,8 +9,11 @@ function pprint(table)
 end
 
 for i=1,#CpuTable do
-    for j=1,#CpuTable[j] do
-        print()
-    pprint(CpuTable[i])
+    local CpuIndexed = CpuTable[i].name
+    local CpuFinalCraft = CpuTable[i].cpu.pendingItems()
+    --pprint(CpuTable[i].cpu.pendingItems())
+    if CpuTable[i].busy == false then
+        print(tostring(CpuIndexed) .. " Currently idle")
+    else print(tostring(CpuIndexed) .. " Currently working on crafting " .. tostring(CpuFinalCraft))
 end
-
+end
