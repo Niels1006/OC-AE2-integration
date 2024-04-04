@@ -2,6 +2,9 @@ local component = require("component")
 local ME = component.me_interface
 local CpuTable = ME.getCpus()
 
+require("src.Network")
+require("src.Utility")
+
 function pprint(table)
     for key, value in pairs(table) do
         print(key, value)
@@ -30,16 +33,18 @@ function matchCpu(name) --: cpu
     return nil
 end
 
--- PAST HERE DOESNT WORK
-
-local WorkingCpus = getBusyCpus(CpuTable)
-
 for i=1,#CpuTable do
-    local CpuIndexed = CpuTable[i].name
-    local CpuFinalCraft = CpuTable[i].cpu.pendingItems()
-    --pprint(CpuTable[i].cpu.pendingItems())
+    local CpuIndexedName = CpuTable[i].name
+    local CpuIndexedIsWorking = CpuTable[i].busy
+    local CpuIndexedCraftingStorage = CpuTable[i].storage
+    local CpuIndexedCraftingCoprocessor = CpuTable[i].coprocessors
     if CpuTable[i].busy == false then
-        print(tostring(CpuIndexed) .. " Currently idle")
-    print(tostring(WorkingCpus[i]))
+        print(tostring(CpuIndexedName) .. " Currently idle")
+    else 
+        print(tostring(CpuIndexedName) .. " Currently working")
+        print("Crafing Storage: " .. tostring(CpuIndexedCraftingStorage))
+        print("Coprocessors: " .. tostring(CpuIndexedCraftingCoprocessor))
 end
 end
+
+pprint(CpuTable[1])
