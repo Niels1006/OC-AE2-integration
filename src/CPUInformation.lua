@@ -1,6 +1,10 @@
 local component = require("component")
 local ME = component.me_interface
 local CpuTable = ME.getCpus()
+local CpuDataToServer = {}
+
+require("src.Network")
+require("src.Utility")
 
 function pprint(table)
     for key, value in pairs(table) do
@@ -30,16 +34,32 @@ function matchCpu(name) --: cpu
     return nil
 end
 
--- PAST HERE DOESNT WORK
-
-local WorkingCpus = getBusyCpus(CpuTable)
-
 for i=1,#CpuTable do
-    local CpuIndexed = CpuTable[i].name
-    local CpuFinalCraft = CpuTable[i].cpu.pendingItems()
-    --pprint(CpuTable[i].cpu.pendingItems())
-    if CpuTable[i].busy == false then
-        print(tostring(CpuIndexed) .. " Currently idle")
-    print(tostring(WorkingCpus[i]))
+    
+    CpuDataToServer[i] = {
+      name = CpuTable[i].name,
+      storage = CpuTable[i].storage,
+      busy = CpuTable[i].busy,
+      activeItems = {},
+      storedItems = {},
+      pendingItems = {}
+    }
+    if CpuTable[i].busy == true then
+        local cpu = CpuTable[i].cpu
+        for _, v in ipairs({
+            {items = cpu.activeItems(), name = "activeItems"},
+            {items = cpu.storedItems(), name = "storedItems"},
+            {item = cpu.pendingItems(), name = "pendingItems"}
+        }) do
+            if v.items ~= nil then
+                for __, v2 in ipairs(v.items) do
+                    CpuDataToServer[i][v.name][__] = {[v2.label] = v2.size}
+                end
+            end
+        end
+    end
+    
 end
-end
+
+print(dump(CpuDataToServer))
+send_to_server(CpuDataToServer)
