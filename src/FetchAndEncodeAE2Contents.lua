@@ -7,7 +7,7 @@ require("src.Utility")
 
 function getStoredItems()
     local item_table = {}
-=    for item in items do
+    for item in items do
         if item.isCraftable == false and (type(item) == "table") then
             local label = item.label:gsub("%§.", "")
             local size = item.size
