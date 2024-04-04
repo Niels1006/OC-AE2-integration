@@ -4,7 +4,7 @@ utility = require("src.Utility")
 
 internet = component.internet
 
-function send_to_server(table_)
+function sendToServer(table_)
     local req = internet.request("https://niels.space/api/json",
                                  json.encode(table_),
                                  {["Content-Type"] = "application/json"}, "POST")

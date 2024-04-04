@@ -22,7 +22,3 @@ function getStoredItems()
     end
     return item_table
 end
-
-local AE2StoredItems = getStoredItems()
-send_to_server(AE2StoredItems)
-print(dump(AE2StoredItems))
