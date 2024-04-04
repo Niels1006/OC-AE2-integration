@@ -1,24 +1,28 @@
 local component = require("component")
 local ME = component.me_interface
+local JSON = require("json")
+
+require("src.Network")
+require("src.Utility")
 
 function pprint(table)
     for key, value in pairs(table) do
         print(key, value)
     end
 end
-
 function getStoredItems()
-    local itemsString = "{\n"
     items = ME.allItems()
+    local item_table = {}
     for item in items do
         if item.isCraftable == false and (type(item) == "table") then
             local label = item.label:gsub("%§.", "")
             local size = item.size
-            itemsString = itemsString .. "    \"".. label .. "\": " .. size .. ",\n"
+            item_table[label] = size
         end
     end
-    itemsString = itemsString .. "}"
-    return itemsString
+    return item_table
 end
 
-print(getItems())
+local AE2StoredItems = getStoredItems()
+send_to_server(AE2StoredItems)
+print(dump(AE2StoredItems))

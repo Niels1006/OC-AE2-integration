@@ -2,6 +2,8 @@ component = require("component")
 json = require("lib.json")
 utility = require("src.Utility")
 
+internet = component.internet
+
 function send_to_server(table_)
     local req = internet.request("https://niels.space/api/json",
                                  json.encode(table_),
