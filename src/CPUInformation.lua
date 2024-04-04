@@ -1,6 +1,7 @@
 local component = require("component")
 local ME = component.me_interface
 local CpuTable = ME.getCpus()
+local CpuDataToServer = {}
 
 require("src.Network")
 require("src.Utility")
@@ -34,17 +35,31 @@ function matchCpu(name) --: cpu
 end
 
 for i=1,#CpuTable do
-    local CpuIndexedName = CpuTable[i].name
-    local CpuIndexedIsWorking = CpuTable[i].busy
-    local CpuIndexedCraftingStorage = CpuTable[i].storage
-    local CpuIndexedCraftingCoprocessor = CpuTable[i].coprocessors
-    if CpuTable[i].busy == false then
-        print(tostring(CpuIndexedName) .. " Currently idle")
-    else 
-        print(tostring(CpuIndexedName) .. " Currently working")
-        print("Crafing Storage: " .. tostring(CpuIndexedCraftingStorage))
-        print("Coprocessors: " .. tostring(CpuIndexedCraftingCoprocessor))
-end
+    
+    CpuDataToServer[i] = {
+      name = CpuTable[i].name,
+      storage = CpuTable[i].storage,
+      busy = CpuTable[i].busy,
+      activeItems = {},
+      storedItems = {},
+      pendingItems = {}
+    }
+    if CpuTable[i].busy == true then
+        local cpu = CpuTable[i].cpu
+        for _, v in ipairs({
+            {items = cpu.activeItems(), name = "activeItems"},
+            {items = cpu.storedItems(), name = "storedItems"},
+            {item = cpu.pendingItems(), name = "pendingItems"}
+        }) do
+            if v.items ~= nil then
+                for __, v2 in ipairs(v.items) do
+                    CpuDataToServer[i][v.name][__] = {[v2.label] = v2.size}
+                end
+            end
+        end
+    end
+    
 end
 
-pprint(CpuTable[1])
+print(dump(CpuDataToServer))
+send_to_server(CpuDataToServer)
