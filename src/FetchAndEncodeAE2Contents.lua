@@ -1,5 +1,6 @@
 local component = require("component")
 local ME = component.me_interface
+local JSON = require("json")
 
 function pprint(table)
     for key, value in pairs(table) do
@@ -21,4 +22,7 @@ function getStoredItems()
     return itemsString
 end
 
-print(getItems())
+local AE2StoredItems = getStoredItems()
+send_to_server(AE2StoredItems)
+
+print(AE2StoredItems)
