@@ -1,6 +1,5 @@
 local component = require("component")
 local ME = component.me_interface
-local JSON = require("json")
 
 require("src.Network")
 require("src.Utility")
