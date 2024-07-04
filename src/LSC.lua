@@ -1,3 +1,4 @@
+local component = require("component")
 local LSC = {}
 
 function LSC.getLSCProxy()

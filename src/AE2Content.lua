@@ -1,6 +1,5 @@
 local component = require("component")
 local me = component.me_interface
-require("src.Utility")
 
 local AE2Content = {}
 

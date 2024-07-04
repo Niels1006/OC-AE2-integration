@@ -1,5 +1,3 @@
-require("src.Utility")
-require("src.Network")
 local component = require("component")
 local ME = component.me_interface
 
