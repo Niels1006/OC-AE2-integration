@@ -1,4 +1,6 @@
-local nw = require("src.Network")
+require("src.Network")
+require("src.RequestCraftingItem")
+local component = require("component")
+local me = component.me_interface
 
-local table_ = {hello = "world"}
-send_to_server(table_)
+local x = me.getItemsInNetwork()
