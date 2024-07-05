@@ -19,6 +19,10 @@ for i = 1, #paths do
 end
 
 for i = 1, #scripts do
+    if exists(scripts[i]) then
+        filesystem.remove(shell.getWorkingDirectory() .. "/" .. scripts[i]);
+    end
+
     shell.execute(string.format("wget %s%s/%s %s", repo, branch, scripts[i], scripts[i]));
 end
 
