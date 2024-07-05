@@ -23,10 +23,10 @@ function LSC.getLSCContent(lscProxy, tpsProxy)
     local string_lsc = sensorInformation[2]
     local lsc = string_lsc.gsub(string_lsc, "([^0-9]+)", "")
 
-    if tonumber(wirelessenergy) < 10000000 then
-        print("wireless useless")
-        return
-    end
+    -- if tonumber(wirelessenergy) < 10000000 then
+    --     print("wireless useless")
+    --     return
+    -- end
 
     tpsProxy.getOverallTickTime()
 

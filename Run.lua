@@ -32,6 +32,12 @@ local function main()
             local result, code, message, headers_r = pcall(network.makeRequest, "cpus", data, headers, "POST")
         end
 
+        if counter % 5 == 0 then
+            local data = cpus.getComplexCraftData()
+            local result, code, message, headers_r = pcall(network.makeRequest, "complex-craft-data", data, headers,
+                "POST")
+        end
+
         if counter % 1 == 0 then
             local result = pcall(crafts.handleCraftingQueue, headers)
             if result ~= true then

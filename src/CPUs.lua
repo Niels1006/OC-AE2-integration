@@ -35,7 +35,7 @@ function CPUs.getCpuData()
     }
 end
 
-function sendDetailedCPUCraftsToServer()
+function CPUs.getComplexCraftData()
     local cpus = ME.getCpus()
     local craftInformationDict = {}
     for k, v in pairs(cpus) do
@@ -96,13 +96,10 @@ function sendDetailedCPUCraftsToServer()
         ::continue::
     end
 
-    sendToServer("crafting_complex", {
-        ["api_key"] = "",
-        ["server"] = "twist",
+    return {
         ["crafts"] = craftInformationDict
-    }, 10)
+    }
 end
-
 
 return CPUs
 
